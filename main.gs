@@ -20,7 +20,7 @@ function GetMessage(e) {
   var level = cache.get("level");
 
   if(licence != null){
-    reply(replydata.token,"ライセンス登録済み");
+    store(groupList_sheet,replydata.token);
   }else{
     //ライセンスがない場合
     if(replydata.text == "キャンセル"){
