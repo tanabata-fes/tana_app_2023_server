@@ -95,7 +95,8 @@ function registerLevel6(text,token){
     cache.put("level",7);
     cache.put("student_number",text);
     var student_number = cache.get("student_number");
-    reply(token,`団体名:${store_name}\n名前:${name}\n学部:${faculty}\n学年:${grade}年\n学籍番号:${student_number}\n\nで登録します。\n\n間違いがない場合は「はい」、間違いがある場合は「キャンセル」と送信してください。`);
+    var message = `団体名:${store_name}\n名前:${name}\n学部:${faculty}\n学年:${grade}年\n学籍番号:${student_number}\n\nで登録します。\n\n間違いがない場合は「はい」、間違いがある場合は「キャンセル」と送信してください。`
+    replyTwoButtons(token,"はい","キャンセル", "はい", "キャンセル",message);
   }else{
     reply(token,"学籍番号は半角数字で入力してください。");
   }

@@ -20,7 +20,12 @@ function GetMessage(e) {
   var level = cache.get("level");
 
   if(licence != null){
-    store(groupList_sheet,replydata.token);
+    if(replydata.text == "リセット"){
+      cache.remove("licence");
+    }else{
+      store(groupList_sheet,replydata.token,replydata.text);
+    }
+
   }else{
     //ライセンスがない場合
     if(replydata.text == "キャンセル"){
@@ -35,7 +40,7 @@ function GetMessage(e) {
           //ライセンス登録段階にある事のキャッシュ保存
           licenceRegisterSetup(replydata.token);
         }else{
-          reply(replydata.token,"ライセンス登録を行ってください。");
+          replyOneButton(replydata.token,"ライセンス登録", "ライセンス登録", "ライセンス登録を行ってください。")
         }
       }
     }
@@ -96,4 +101,167 @@ function reply(replyToken, message) {
     }),
   });
   //return ContentService.createTextOutput(JSON.stringify({"content": "post ok"})).setMimeType(ContentService.MimeType.JSON);
+}
+
+function replyOneButton(token, button1, replyMessage, message) {
+  var messageData = {
+    "type": "template",
+    "altText": replyMessage,
+    "template": {
+      "type": "buttons",
+      "actions": [{
+        "type": "message",
+        "label": button1,
+        "text": replyMessage
+      }],
+      "title": message,
+      "text": " "
+    }
+  };
+
+  var options = {
+    "method": "post",
+    "headers": {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN
+    },
+    "payload": JSON.stringify({
+      "replyToken": token,
+      "messages": [messageData]
+    })
+  };
+
+  UrlFetchApp.fetch("https://api.line.me/v2/bot/message/reply", options);
+}
+
+function replyTwoButtons(token, button1, button2, replyMessage1, replyMessage2, message) {
+  var replyBody = {
+    "replyToken": token,
+    "messages": [{
+      "type": "template",
+      "altText": message,
+      "template": {
+        "type": "buttons",
+        "actions": [{
+            "type": "message",
+            "label": button1,
+            "text": replyMessage1
+          },
+          {
+            "type": "message",
+            "label": button2,
+            "text": replyMessage2
+          }
+        ],
+        "text": message
+      }
+    }]
+  };
+  var url = 'https://api.line.me/v2/bot/message/reply';
+  var replyHeaders = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN
+  };
+  var replyParams = {
+    "method": "post",
+    "headers": replyHeaders,
+    "payload": JSON.stringify(replyBody),
+    "muteHttpExceptions": true
+  };
+  var reply = UrlFetchApp.fetch(url, replyParams);
+  return reply;
+}
+
+
+
+
+function replyThreeButtons(token, button1, button2, button3, replyMessage1, replyMessage2, replyMessage3, message) {
+  var replyBody = {
+    "replyToken": token,
+    "messages": [{
+      "type": "template",
+      "altText": message,
+      "template": {
+        "type": "buttons",
+        "actions": [{
+            "type": "message",
+            "label": button1,
+            "text": replyMessage1
+          },
+          {
+            "type": "message",
+            "label": button2,
+            "text": replyMessage2
+          },
+          {
+            "type": "message",
+            "label": button3,
+            "text": replyMessage3
+          }
+        ],
+        "text": message
+      }
+    }]
+  };
+  var url = 'https://api.line.me/v2/bot/message/reply';
+  var replyHeaders = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN
+  };
+  var replyParams = {
+    "method": "post",
+    "headers": replyHeaders,
+    "payload": JSON.stringify(replyBody),
+    "muteHttpExceptions": true
+  };
+  var reply = UrlFetchApp.fetch(url, replyParams);
+  return reply;
+}
+
+function replyFourButtons(token, button1, button2, button3, button4, replyMessage1, replyMessage2, replyMessage3, replyMessage4, message) {
+  var replyBody = {
+    "replyToken": token,
+    "messages": [{
+      "type": "template",
+      "altText": message,
+      "template": {
+        "type": "buttons",
+        "actions": [{
+            "type": "message",
+            "label": button1,
+            "text": replyMessage1
+          },
+          {
+            "type": "message",
+            "label": button2,
+            "text": replyMessage2
+          },
+          {
+            "type": "message",
+            "label": button3,
+            "text": replyMessage3
+          },
+          {
+            "type": "message",
+            "label": button4,
+            "text": replyMessage4
+          }
+        ],
+        "text": message
+      }
+    }]
+  };
+  var url = 'https://api.line.me/v2/bot/message/reply';
+  var replyHeaders = {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + CHANNEL_ACCESS_TOKEN
+  };
+  var replyParams = {
+    "method": "post",
+    "headers": replyHeaders,
+    "payload": JSON.stringify(replyBody),
+    "muteHttpExceptions": true
+  };
+  var reply = UrlFetchApp.fetch(url, replyParams);
+  return reply;
 }
